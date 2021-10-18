@@ -1,15 +1,29 @@
+#讀取檔案
 products = []
-total = 0
-total = float(total)
-while True:
-    name = input('請輸入商品名稱：')
-    if name == 'q': #quit
-        break
-    price = input('請輸入價格： ')
-    products.append([name, price])
+with open('products.csv', 'r') as f:
+    for line in f:
+        if '商品,價格' in line:
+            continue #繼續
+        name, price = line.strip().split(',')
+        products.append([name, price])
 print(products)
+
+#讓使用者輸入
+while True:
+    name = input('請輸入商品名稱： ')
+    if name == 'q': #quic
+        break
+    price = input('請輸入商品價格： ')
+    price = int(price)
+    products.append([name, price])
+print([products])
+
 for p in products:
-    p[1] = float(p[1])
-    print('商品', p[0], '價格為', p[1])
-    total += p[1]
-print('商品總價為： ',total )
+    print(p[0], '的價格是', p[1])
+
+
+with open('products.csv', 'w') as f:
+    f.write('商品,價格\n')
+    for p in products:
+        f.write(p[0] + ',' + str(p[1]) + '\n')
+
